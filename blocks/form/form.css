@@ -114,17 +114,3 @@ main .form-legal-wrapper p {
 main .form button {
   font-family: var(--body-font-family);
 }
-
-@media (width >= 900px)  and (min-width: 900px) {
-  main .form {
-    padding: var(--spacing-ml);
-  }
-
-  main .form .field-wrapper {
-    display: flex;
-  }
-
-  main .form label {
-    width: 72%;
-  }
-}
