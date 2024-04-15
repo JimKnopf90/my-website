@@ -23,6 +23,7 @@ const createDialog = () => {
       createElement('sup', {}, 'Note: This tool is extended from the open source project <a href="https://sa11y.netlify.app/overview/" target="_blank">Sa11y</a>.'),
       createElement('div', { class: 'hlx-a11y-mode-dialog-actions' }, [
         createElement('button', { class: 'hlx-a11y-mode-dialog-button' }, 'Don’t Show Again'),
+        createElement('sp-button', { class: 'test' }, 'Peter'),
       ]),
     ]),
   ]);
