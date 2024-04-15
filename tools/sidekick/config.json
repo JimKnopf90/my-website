@@ -1,14 +1,14 @@
 {
-    "project": "EDS Accessibility Mode Sidekick Extension",
+    "project": "EDS Approval Sidekick Extension",
     "plugins": [
       {
-        "id": "accessibility-mode",
-        "title": "Accessibility Mode",
+        "id": "approval-mode",
+        "title": "Approval Mode",
         "environments": [
           "preview",
           "dev"
         ],
-        "event": "accessibility-mode"
+        "event": "approval-mode"
       }
     ]
   }
