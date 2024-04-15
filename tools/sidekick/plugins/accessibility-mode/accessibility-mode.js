@@ -17,7 +17,6 @@ const createDialog = () => {
 };
 
 const initAccessibilityMode = async () => {
-
   await loadCSS(`${window.hlx.codeBasePath}/tools/sidekick/plugins/accessibility-mode/accessibility-mode.css`);
 
   const helpDialog = createDialog();
@@ -29,8 +28,6 @@ const initAccessibilityMode = async () => {
     localStorage.setItem('hlx-a11y-mode-help', 'Disabled');
     helpDialog.remove();
   });
-
-
 };
 
 export default initAccessibilityMode;
