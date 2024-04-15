@@ -19,6 +19,7 @@ const foo = ({ detail }) => {
   console.log('Test 123');
   alert('sdsd');
 };
+
 function test() {
   const sk = document.querySelector('helix-sidekick');
   console.log('sdsdsdsdsd');
@@ -33,7 +34,6 @@ function test() {
     }, { once: true });
   }
 }
-
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
