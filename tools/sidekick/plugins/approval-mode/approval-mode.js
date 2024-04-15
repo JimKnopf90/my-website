@@ -36,7 +36,7 @@ function createDropdown() {
 }
 
 const initAccessibilityMode = async () => {
-  await loadCSS(`${window.hlx.codeBasePath}/tools/sidekick/plugins/accessibility-mode/accessibility-mode.css`);
+  await loadCSS(`${window.hlx.codeBasePath}/tools/sidekick/plugins/approval-mode/accessibility-mode.css`);
 
   const approvalStartDialog = createDialog();
   document.body.appendChild(approvalStartDialog);
