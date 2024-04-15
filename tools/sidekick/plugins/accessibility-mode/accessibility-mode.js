@@ -2,8 +2,6 @@
 import { loadCSS } from '../../../../scripts/aem.js';
 import { createElement } from '../../../../scripts/scripts.js'; // eslint-disable-line import/no-cycle
 
-let sa11y = null;
-
 const sa11yElements = [
   'sa11y-control-panel',
   'sa11y-tooltips',
