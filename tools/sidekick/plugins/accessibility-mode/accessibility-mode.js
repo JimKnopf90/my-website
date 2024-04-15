@@ -13,28 +13,6 @@ const sa11yElements = [
   'sa11y-heading-anchor',
 ];
 
-function createCustomElements() {
-  // Erstellen des 'sp-theme'-Elements
-  const theme = document.createElement('sp-theme');
-  theme.setAttribute('theme', 'spectrum');
-  theme.setAttribute('color', 'light');
-  theme.setAttribute('scale', 'medium');
-  theme.style.backgroundColor = 'var(--spectrum-gray-100)';
-
-  // Erstellen des 'sp-button'-Elements
-  const button = document.createElement('sp-button');
-  button.textContent = 'Click me!';
-  button.onclick = function () {
-    spAlert(this, 'Themed <sp-button> clicked!');
-  };
-
-  // Hinzufügen des Buttons zum Theme-Element
-  theme.appendChild(button);
-
-  // Hinzufügen des Theme-Elements zum Body des Dokuments
-  document.body.appendChild(theme);
-}
-
 const createDialog = () => {
   const dialog = createElement('div', { id: 'hlx-a11y-mode-dialog' }, [
     createElement('div', { class: 'hlx-a11y-mode-dialog-container' }, [
@@ -64,8 +42,6 @@ const initAccessibilityMode = async (shouldActivateA11yMode) => {
     if (localStorage.getItem('hlx-a11y-mode-help') !== 'Disabled') {
       const helpDialog = createDialog();
       document.body.appendChild(helpDialog);
-
-      createCustomElements();
 
       const button = helpDialog.querySelector('.hlx-a11y-mode-dialog-button');
 
