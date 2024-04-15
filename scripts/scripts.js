@@ -96,7 +96,7 @@ if (sk) {
   sk.addEventListener('custom:approval-mode', accessibilityMode);
 } else {
   document.addEventListener('sidekick-ready', () => {
-    document.querySelector('helix-sidekick').addEventListener('custom:accessibility-mode', accessibilityMode);
+    document.querySelector('helix-sidekick').addEventListener('custom:approval-mode', accessibilityMode);
   }, {
     once: true,
   });
