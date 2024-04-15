@@ -1,6 +1,8 @@
 /* eslint-disable no-undef, no-unused-vars */
 import { loadCSS } from '../../../../scripts/aem.js';
 import { createElement } from '../../../../scripts/scripts.js'; // eslint-disable-line import/no-cycle
+import '@spectrum-web-components/theme/sp-theme.js';
+import '@spectrum-web-components/theme/src/themes.js';
 
 const sa11yElements = [
   'sa11y-control-panel',
@@ -10,6 +12,28 @@ const sa11yElements = [
   'sa11y-heading-label',
   'sa11y-heading-anchor',
 ];
+
+function createCustomElements() {
+  // Erstellen des 'sp-theme'-Elements
+  const theme = document.createElement('sp-theme');
+  theme.setAttribute('theme', 'spectrum');
+  theme.setAttribute('color', 'light');
+  theme.setAttribute('scale', 'medium');
+  theme.style.backgroundColor = 'var(--spectrum-gray-100)';
+
+  // Erstellen des 'sp-button'-Elements
+  const button = document.createElement('sp-button');
+  button.textContent = 'Click me!';
+  button.onclick = function() {
+      spAlert(this, 'Themed <sp-button> clicked!');
+  };
+
+  // Hinzufügen des Buttons zum Theme-Element
+  theme.appendChild(button);
+
+  // Hinzufügen des Theme-Elements zum Body des Dokuments
+  document.body.appendChild(theme);
+}
 
 const createDialog = () => {
   const dialog = createElement('div', { id: 'hlx-a11y-mode-dialog' }, [
@@ -40,6 +64,8 @@ const initAccessibilityMode = async (shouldActivateA11yMode) => {
     if (localStorage.getItem('hlx-a11y-mode-help') !== 'Disabled') {
       const helpDialog = createDialog();
       document.body.appendChild(helpDialog);
+
+      createCustomElements();
 
       const button = helpDialog.querySelector('.hlx-a11y-mode-dialog-button');
 
