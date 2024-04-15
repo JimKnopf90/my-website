@@ -1,10 +1,10 @@
 {
     "project": "My Project",
-    "host": "www.mydomain.prod",
+    "host": "https://main--my-website--jimknopf90.hlx.page",
     "plugins": [
         {
             "id": "foo",
-            "title": "antegma Approval",
+            "title": "Foo",
             "event": "foo"
           }
     ]
