@@ -17,11 +17,11 @@ const foo = ({ detail }) => {
   const sk = detail.data;
   console.log(sk);
   console.log('Test 123');
-  alert('sdsd');
+  fetch('https://pokeapi.co/api/v2/pokemon/ditto')
+    .then(response => console.log(response.data));
 };
 
 const sk = document.querySelector('helix-sidekick');
-console.log('sdsdsdsdsd');
 if (sk) {
   // sidekick already loaded
   sk.addEventListener('custom:foo', foo);

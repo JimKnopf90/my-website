@@ -4,7 +4,7 @@
     "plugins": [
         {
             "id": "foo",
-            "title": "Foo",
+            "title": "Approval antegma",
             "event": "foo"
           }
     ]
