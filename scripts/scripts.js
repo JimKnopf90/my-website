@@ -13,6 +13,24 @@ import {
   loadCSS,
 } from './aem.js';
 
+const foo = ({ detail }) => {
+  const sk = detail.data;
+  console.log("Test 123");
+  alert("sdsd");
+};
+
+const sk = document.querySelector('helix-sidekick');
+if (sk) {
+  // sidekick already loaded
+  sk.addEventListener('custom:foo', foo);
+} else {
+  // wait for sidekick to be loaded
+  document.addEventListener('sidekick-ready', () => {
+    document.querySelector('helix-sidekick')
+      .addEventListener('custom:foo', foo);
+  }, { once: true });
+}
+
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
 /**
@@ -130,23 +148,6 @@ async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
-}
-
-const foo = ({ detail }) => {
-  const sk = detail.data;
-  console.log("Test 123");
-};
-
-const sk = document.querySelector('helix-sidekick');
-if (sk) {
-  // sidekick already loaded
-  sk.addEventListener('custom:foo', foo);
-} else {
-  // wait for sidekick to be loaded
-  document.addEventListener('sidekick-ready', () => {
-    document.querySelector('helix-sidekick')
-      .addEventListener('custom:foo', foo);
-  }, { once: true });
 }
 
 loadPage();
