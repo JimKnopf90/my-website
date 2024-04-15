@@ -133,10 +133,3 @@ async function loadPage() {
 }
 
 loadPage();
-
-const foo = ({ detail }) => {
-  const sk = detail.data;
-  console.log(sk);
-  console.log('Test 123');
-  alert('sdsd');
-};
