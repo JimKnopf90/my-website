@@ -1,11 +1,15 @@
 {
-    "project": "My Project",
-    "host": "https://main--my-website--jimknopf90.hlx.page",
+    "project": "EDS Accessibility Mode Sidekick Extension",
     "plugins": [
-        {
-            "id": "foo",
-            "title": "test",
-            "event": "foo"
-          }
+      {
+        "id": "accessibility-mode",
+        "title": "Accessibility Mode",
+        "environments": [
+          "preview",
+          "dev"
+        ],
+        "event": "accessibility-mode"
+      }
     ]
   }
+  
