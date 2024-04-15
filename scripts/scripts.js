@@ -93,10 +93,10 @@ const accessibilityMode = async (e) => {
 const sk = document.querySelector('helix-sidekick');
 
 if (sk) {
-  sk.addEventListener('custom:approval-mode', accessibilityMode);
+  sk.addEventListener('custom:accessibility-mode', accessibilityMode);
 } else {
   document.addEventListener('sidekick-ready', () => {
-    document.querySelector('helix-sidekick').addEventListener('custom:approval-mode', accessibilityMode);
+    document.querySelector('helix-sidekick').addEventListener('custom:accessibility-mode', accessibilityMode);
   }, {
     once: true,
   });
