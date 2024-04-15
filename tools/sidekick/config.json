@@ -2,7 +2,7 @@
     "project": "EDS Approval Sidekick Extension",
     "plugins": [
       {
-        "id": "accessibility-mode",
+        "id": "approval-mode",
         "title": "Approval Mode",
         "environments": [
           "preview",

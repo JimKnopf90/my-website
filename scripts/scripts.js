@@ -14,7 +14,7 @@ import {
 } from './aem.js';
 
 // eslint-disable-next-line import/no-cycle
-import initAccessibilityMode from '../tools/sidekick/plugins/accessibility-mode/accessibility-mode.js';
+import initAccessibilityMode from '../tools/sidekick/plugins/approval-mode/accessibility-mode.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 let isA11yModeActive = false;
