@@ -1,11 +1,7 @@
 /* eslint-disable no-undef, no-unused-vars */
-import { Sa11y, Lang } from './lib/sa11y.min.js';
-import Sa11yLangEn from './lib/sa11y.lang.en.js';
 import { loadCSS } from '../../../../scripts/aem.js';
 import { createElement } from '../../../../scripts/scripts.js'; // eslint-disable-line import/no-cycle
-import customChecks from './custom-checks/custom-checks.js';
 
-let initializedCounter = 0;
 let sa11y = null;
 
 const sa11yElements = [
@@ -16,8 +12,6 @@ const sa11yElements = [
   'sa11y-heading-label',
   'sa11y-heading-anchor',
 ];
-
-const isPanelOpened = () => localStorage.getItem('sa11y-remember-panel') === 'Opened';
 
 const createDialog = () => {
   const dialog = createElement('div', { id: 'hlx-a11y-mode-dialog' }, [
@@ -54,54 +48,6 @@ const initAccessibilityMode = async (shouldActivateA11yMode) => {
         localStorage.setItem('hlx-a11y-mode-help', 'Disabled');
         helpDialog.remove();
       });
-    }
-
-    await loadCSS(`${window.hlx.codeBasePath}/tools/sidekick/plugins/accessibility-mode/lib/sa11y.min.css`);
-    Lang.addI18n(Sa11yLangEn.strings);
-    const isAlreadyInitialized = initializedCounter > 0;
-
-    /**
-     * NOTE: Sa11y has been extended to be able to toggle on and off via sidekick in preview mode.
-     */
-    // eslint-disable-next-line no-unused-vars
-    sa11y = new Sa11y({
-      checkRoot: 'main',
-      readabilityRoot: 'main',
-      headless: isAlreadyInitialized,
-      containerIgnore: '#hlx-a11y-mode-dialog',
-      dismissAnnotations: false,
-      headingMaxCharLength: 70,
-      customChecks,
-    });
-
-    if (initializedCounter === 0) {
-      initializedCounter += 1;
-    }
-
-    if (isAlreadyInitialized) {
-      html.setAttribute('data-sa11y-active', 'true');
-      html.setAttribute('data-sa11y-theme', 'dark');
-
-      sa11yElements.forEach((selector) => {
-        const elements = document.querySelectorAll(selector);
-        [...elements].forEach((element) => {
-          element.removeAttribute('style');
-        });
-      });
-
-      const sa11yAnnotations = document.querySelectorAll('sa11y-annotation');
-
-      [...sa11yAnnotations].forEach((element) => {
-        element.remove();
-      });
-
-      if (isPanelOpened()) {
-        const sa11yControlPanel = document.querySelector('sa11y-control-panel');
-        const panelContainer = sa11yControlPanel.shadowRoot.querySelector('#panel');
-        panelContainer.classList.add('active');
-      }
-
-      sa11y.checkAll();
     }
   } else {
     html.removeAttribute('data-sa11y-theme');
