@@ -19,7 +19,7 @@ const foo = ({ detail }) => {
   console.log('Test 123');
   fetch('https://pokeapi.co/api/v2/pokemon/ditto')
     .then((response) => {
-      console.log(response);
+      console.log(response.json());
     });
 };
 
