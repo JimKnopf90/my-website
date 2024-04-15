@@ -21,7 +21,7 @@ const foo = ({ detail }) => {
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-    })
+    });
 };
 
 const sk = document.querySelector('helix-sidekick');
