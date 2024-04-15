@@ -87,7 +87,7 @@ const accessibilityMode = async (e) => {
   }
 
   document.querySelector('body').classList.toggle('accessibility-mode-active');
-  await initAccessibilityMode(isA11yModeActive);
+  await initAccessibilityMode();
 };
 
 const sk = document.querySelector('helix-sidekick');
