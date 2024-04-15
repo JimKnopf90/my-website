@@ -18,9 +18,7 @@ const foo = ({ detail }) => {
   console.log(sk);
   console.log('Test 123');
   fetch('https://pokeapi.co/api/v2/pokemon/ditto')
-    .then((response) => {
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
       console.log(data);
     })
