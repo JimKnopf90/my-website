@@ -12,21 +12,41 @@ const createDialog = () => {
       ]),
     ]),
   ]);
-
   return dialog;
 };
+
+function createDropdown() {
+  // Erstellen des 'select'-Elements
+  const select = document.createElement('select');
+
+  // Optionen für das Dropdown hinzufügen
+  const options = ["Option 1", "Option 2", "Option 3"];
+  options.forEach(optionText => {
+    const option = document.createElement('option');
+    option.textContent = optionText;
+    option.value = optionText;
+    select.appendChild(option);
+  });
+
+  // Optionales Hinzufügen eines Event Listeners für das 'change' Ereignis
+  select.addEventListener('change', function () {
+    console.log('Ausgewählte Option:', this.value);
+  });
+
+  return select;
+}
 
 const initAccessibilityMode = async () => {
   await loadCSS(`${window.hlx.codeBasePath}/tools/sidekick/plugins/accessibility-mode/accessibility-mode.css`);
 
-  const helpDialog = createDialog();
-  document.body.appendChild(helpDialog);
+  const approvalStartDialog = createDialog();
+  approvalStartDialog.appendChild(createDropdown());
+  document.body.appendChild(approvalStartDialog);
 
   const button = helpDialog.querySelector('.hlx-a11y-mode-dialog-button');
 
   button.addEventListener('click', () => {
-    localStorage.setItem('hlx-a11y-mode-help', 'Disabled');
-    helpDialog.remove();
+    approvalStartDialog.remove();
   });
 };
 
