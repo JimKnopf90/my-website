@@ -19,8 +19,11 @@ const foo = ({ detail }) => {
   console.log('Test 123');
   fetch('https://pokeapi.co/api/v2/pokemon/ditto')
     .then((response) => {
-      console.log(response.text());
-    });
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
 };
 
 const sk = document.querySelector('helix-sidekick');
