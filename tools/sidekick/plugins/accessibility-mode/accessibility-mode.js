@@ -21,7 +21,7 @@ function createDropdown() {
 
   // Optionen für das Dropdown hinzufügen
   const options = ['Option 1', 'Option 2', 'Option 3'];
-  options.forEach(optionText => {
+  options.forEach((optionText) => {
     const option = document.createElement('option');
     option.textContent = optionText;
     option.value = optionText;
