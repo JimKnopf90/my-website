@@ -75,7 +75,7 @@ export function createElement(tagName, props, html) {
 }
 
 const accessibilityMode = async (e) => {
-  const pluginButton = e.target.shadowRoot.querySelector('.accessibility-mode > button');
+  const pluginButton = e.target.shadowRoot.querySelector('.approval-mode > button');
 
   isA11yModeActive = !isA11yModeActive;
 
