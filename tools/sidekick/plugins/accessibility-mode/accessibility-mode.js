@@ -24,8 +24,8 @@ function createCustomElements() {
   // Erstellen des 'sp-button'-Elements
   const button = document.createElement('sp-button');
   button.textContent = 'Click me!';
-  button.onclick = function() {
-      spAlert(this, 'Themed <sp-button> clicked!');
+  button.onclick = function () {
+    spAlert(this, 'Themed <sp-button> clicked!');
   };
 
   // Hinzufügen des Buttons zum Theme-Element
