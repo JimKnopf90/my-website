@@ -39,7 +39,7 @@ const initAccessibilityMode = async () => {
   await loadCSS(`${window.hlx.codeBasePath}/tools/sidekick/plugins/accessibility-mode/accessibility-mode.css`);
 
   const approvalStartDialog = createDialog();
-  document.getElementById('test-123').appendChild(createDropdown());
+  approvalStartDialog.appendChild(createDropdown());
   document.body.appendChild(approvalStartDialog);
 
   const button = helpDialog.querySelector('.hlx-a11y-mode-dialog-button');
