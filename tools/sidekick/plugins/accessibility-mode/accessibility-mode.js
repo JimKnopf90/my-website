@@ -1,8 +1,6 @@
 /* eslint-disable no-undef, no-unused-vars */
 import { loadCSS } from '../../../../scripts/aem.js';
 import { createElement } from '../../../../scripts/scripts.js'; // eslint-disable-line import/no-cycle
-import '@spectrum-web-components/theme/sp-theme.js';
-import '@spectrum-web-components/theme/src/themes.js';
 
 const sa11yElements = [
   'sa11y-control-panel',
@@ -25,7 +23,7 @@ const createDialog = () => {
       createElement('sup', {}, 'Note: This tool is extended from the open source project <a href="https://sa11y.netlify.app/overview/" target="_blank">Sa11y</a>.'),
       createElement('div', { class: 'hlx-a11y-mode-dialog-actions' }, [
         createElement('button', { class: 'hlx-a11y-mode-dialog-button' }, 'Don’t Show Again'),
-        createElement('sp-button', { class: 'test' }, 'Peter'),
+        createElement('sp-button', { class: 'hlx-a11y-mode-dialog-button' }, 'Peter'),
       ]),
     ]),
   ]);
