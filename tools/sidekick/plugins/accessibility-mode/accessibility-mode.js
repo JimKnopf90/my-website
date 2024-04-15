@@ -40,7 +40,7 @@ const initAccessibilityMode = async () => {
 
   const approvalStartDialog = createDialog();
   document.body.appendChild(approvalStartDialog);
-  document.getElementById('test-123').appendChild(createDropdown());
+  document.getElementById('test-123').prepend(createDropdown());
 
   const button = helpDialog.querySelector('.hlx-a11y-mode-dialog-button');
 
