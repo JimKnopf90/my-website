@@ -1,0 +1,11 @@
+{
+    "project": "My Project",
+    "host": "www.mydomain.prod",
+    "plugins": [
+        {
+            "id": "foo",
+            "title": "Foo",
+            "event": "foo"
+          }
+    ]
+  }
