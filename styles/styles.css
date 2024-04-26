@@ -148,7 +148,6 @@ a.button:any-link, button {
   margin: 16px 0;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   border-radius: 30px;
 }
 

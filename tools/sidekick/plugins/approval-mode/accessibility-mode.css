@@ -16,7 +16,7 @@
   position: relative;
   background: var(--background-color);
   padding: 2rem;
-  max-width: 500px;
+  max-width: 600px;
   max-height: 500px;
   overflow-y: scroll;
 }
@@ -33,4 +33,73 @@
   font-size: 0.75rem;
   font-style: italic;
   line-height:1rem;
+}
+
+custom-select {
+  min-width: 350px;
+  position: relative;
+}
+
+select {
+  appearance: none;
+  /*  safari  */
+  -webkit-appearance: none;
+  /*  other styles for aesthetics */
+  width: 100%;
+  font-size: 16px;
+  padding: 0.275em 1em 0.275em 1em;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.custom-select:disabled {
+  color: #999;
+  background-color: #f3f3f3;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.custom-select::before,
+.custom-select::after {
+  --size: 0.3rem;
+  content: "";
+  position: absolute;
+  right: 1rem;
+  pointer-events: none;
+}
+
+.custom-select::before {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-bottom: var(--size) solid black;
+  top: 40%;
+}
+
+.custom-select::after {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid black;
+  top: 55%;
+}
+
+#selection {
+  display: flex;
+  gap: 10px;
+}
+
+#result-list {
+  display: flex;
+  gap: 10px;
+  margin: 25px 10px 25px 10px;
+}
+
+#result-role {
+  background-color: #035fe6;
+  padding: 5px 10px 5px 10px;
+  font-size: medium;
+  border-radius: 5px;
+  color: #fff;
 }
