@@ -3,8 +3,10 @@ import { loadCSS } from '../../../../scripts/aem.js';
 import { createElement } from '../../../../scripts/scripts.js';
 
 let selectedUser = '';
+let selectedUserId = '';
 let selectedRole = 'Approver';
-const selectedUserRole = [{ name: '', id: '', role: '' }];
+let selectedRoleId = 4;
+let selectedUserRole = [];
 
 const createDialog = () => {
   const dialog = createElement('div', { id: 'hlx-a11y-mode-dialog' }, [
@@ -18,14 +20,13 @@ const createDialog = () => {
       createElement('div', { class: 'hlx-a11y-mode-dialog-actions' }, [
         createElement('button', { class: 'hlx-a11y-mode-dialog-button' }, 'Start Approval Process '),
       ]),
-
     ]),
   ]);
   return dialog;
 };
 
 const add = () => {
-  selectedUserRole.push({ name: selectedUser, selectedRole });
+  selectedUserRole.push({ contactToken: selectedUserId, role: selectedRoleId });
   const div = document.createElement('div');
   div.id = 'result-list';
   const divName = document.createElement('div');
@@ -52,7 +53,7 @@ const fetchUsers = async () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      data.map((user) => userList.push({ name: `${user.firstName} ${user.lastName}`, id: user.accountToken }));
+      data.map((user) => userList.push({ name: `${user.firstName} ${user.lastName}`, id: user.token }));
     });
   return userList;
 };
@@ -63,16 +64,24 @@ function createRoleDropdown() {
   select.id = 'role-selection';
   select.disabled = true;
 
-  const options = ['Approver', 'Reviewer and Approver', 'Author', 'Moderator', 'Read only'];
-  options.forEach((optionText) => {
+  const roles = [
+    { role: 'Approver', value: 4 },
+    { role: 'Reviewer and Approver', value: 5 },
+    { role: 'Author', value: 6 },
+    { role: 'Moderator', value: 7 },
+    { role: 'Read only', value: 1 }
+  ];
+  roles.forEach((role) => {
     const option = document.createElement('option');
-    option.textContent = optionText;
-    option.value = optionText;
+    option.textContent = role.role;
+    option.value = role.value;
     select.appendChild(option);
   });
 
   select.addEventListener('change', function () {
-    selectedRole = this.value;
+    const roleName = this.options[this.selectedIndex].textContent;
+    selectedRole = roleName;
+    selectedRoleId = this.value;
     document.getElementById('btn-add').disabled = false;
   });
 
@@ -86,14 +95,17 @@ async function createUserDropdown() {
   select.classList = 'custom-select';
 
   userList.forEach((user) => {
+
     const option = document.createElement('option');
     option.textContent = user.name;
-    option.value = user.name;
+    option.value = user.id;
     select.appendChild(option);
   });
 
   select.addEventListener('change', function () {
-    selectedUser = this.value;
+    const name = this.options[this.selectedIndex].textContent;
+    selectedUser = name;
+    selectedUserId = this.value;
     document.getElementById('role-selection').disabled = false;
   });
 
@@ -115,28 +127,21 @@ const initAccessibilityMode = async () => {
     const page = window.location.href;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
-    const raw = JSON.stringify([
-      {
-        contactToken: 'dec79531pe5877710e79336b9ueb6f9c71d',
-        role: -1,
-      },
-      {
-        contactToken: 'c6adba50p99980248ee0369eaudf702c102',
-        role: 4,
-      },
-    ]);
+    console.log(selectedUserRole);
+    const body = JSON.stringify(selectedUserRole);
 
     const requestOptions = {
       method: 'POST',
       headers,
-      body: raw,
+      body,
       redirect: 'follow',
     };
 
     fetch(`http://localhost:8080/api/approvals?pageUrl=${page}`, requestOptions)
       .then((response) => response.text())
       .then(() => approvalStartDialog.remove());
+
+      selectedUserRole = [];  
   });
 
   const addButton = document.getElementById('btn-add');
