@@ -1,6 +1,6 @@
-/* eslint-disable no-undef, no-unused-vars */
+/* eslint-disable no-undef, no-unused-vars, import/no-cycle */
 import { loadCSS } from '../../../../scripts/aem.js';
-import { createElement } from '../../../../scripts/scripts.js'; // eslint-disable-line import/no-cycle;
+import { createElement } from '../../../../scripts/scripts.js';
 
 let selectedUser = '';
 let selectedRole = 'Approver';
@@ -12,7 +12,7 @@ const createDialog = () => {
       createElement('h4', { class: 'hlx-a11y-mode-dialog-title' }, 'Start Approval Process'),
       createElement('p', {}, 'Please select the role and approver'),
       createElement('div', { id: 'selection' }, [
-        createElement('button', { id: 'btn-add', disabled: true }, '+')
+        createElement('button', { id: 'btn-add', disabled: true }, '+'),
       ]),
       createElement('div', { id: 'result' }),
       createElement('div', { class: 'hlx-a11y-mode-dialog-actions' }, [
@@ -25,7 +25,7 @@ const createDialog = () => {
 };
 
 const add = () => {
-  selectedUserRole.push({ name: selectedUser, selectedRole: selectedRole });
+  selectedUserRole.push({ name: selectedUser, selectedRole });
   const div = document.createElement('div');
   div.id = 'result-list';
   const divName = document.createElement('div');
@@ -40,22 +40,22 @@ const add = () => {
   selectedRole = 'Approver';
   document.getElementById('btn-add').disabled = true;
   document.getElementById('role-selection').disabled = true;
-}
+};
 
 const fetchUsers = async () => {
-  let userList = [];
+  const userList = [];
   await fetch('https://rest.proofhq.eu/api/v1/contacts', {
     headers: {
       'Content-Type': 'application/json',
-      'Sessionid': '03E1NDY5YmM4MjkzYmE5M2FiMWY0M2YzMDgxYTkr',
+      Sessionid: '03E1NDY5YmM4MjkzYmE5M2FiMWY0M2YzMDgxYTkr',
     },
   })
     .then((response) => response.json())
     .then((data) => {
-      data.map(user => userList.push({ name: user.firstName + ' ' + user.lastName, id: user.accountToken }));
-    })
+      data.map((user) => userList.push({ name: `${user.firstName} ${user.lastName}`, id: user.accountToken }));
+    });
   return userList;
-}
+};
 
 function createRoleDropdown() {
   const select = document.createElement('select');
@@ -84,7 +84,6 @@ async function createUserDropdown() {
 
   const select = document.createElement('select');
   select.classList = 'custom-select';
-
 
   userList.forEach((user) => {
     const option = document.createElement('option');
@@ -119,27 +118,25 @@ const initAccessibilityMode = async () => {
 
     const raw = JSON.stringify([
       {
-        'contactToken': 'dec79531pe5877710e79336b9ueb6f9c71d',
-        'role': -1
+        contactToken: 'dec79531pe5877710e79336b9ueb6f9c71d',
+        role: -1,
       },
       {
-        'contactToken': 'c6adba50p99980248ee0369eaudf702c102',
-        'role': 4
-      }
+        contactToken: 'c6adba50p99980248ee0369eaudf702c102',
+        role: 4,
+      },
     ]);
 
     const requestOptions = {
       method: 'POST',
-      headers: headers,
+      headers,
       body: raw,
-      redirect: 'follow'
+      redirect: 'follow',
     };
 
     fetch(`http://localhost:8080/api/approvals?pageUrl=${page}`, requestOptions)
       .then((response) => response.text())
-      .then(() => {        
-        approvalStartDialog.remove();
-      });
+      .then(() => approvalStartDialog.remove());
   });
 
   const addButton = document.getElementById('btn-add');
