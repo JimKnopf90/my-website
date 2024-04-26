@@ -69,7 +69,7 @@ function createRoleDropdown() {
     { role: 'Reviewer and Approver', value: 5 },
     { role: 'Author', value: 6 },
     { role: 'Moderator', value: 7 },
-    { role: 'Read only', value: 1 }
+    { role: 'Read only', value: 1 },
   ];
   roles.forEach((role) => {
     const option = document.createElement('option');
@@ -95,7 +95,6 @@ async function createUserDropdown() {
   select.classList = 'custom-select';
 
   userList.forEach((user) => {
-
     const option = document.createElement('option');
     option.textContent = user.name;
     option.value = user.id;
@@ -127,7 +126,6 @@ const initAccessibilityMode = async () => {
     const page = window.location.href;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    console.log(selectedUserRole);
     const body = JSON.stringify(selectedUserRole);
 
     const requestOptions = {
@@ -141,7 +139,7 @@ const initAccessibilityMode = async () => {
       .then((response) => response.text())
       .then(() => approvalStartDialog.remove());
 
-      selectedUserRole = [];  
+    selectedUserRole = [];
   });
 
   const addButton = document.getElementById('btn-add');
