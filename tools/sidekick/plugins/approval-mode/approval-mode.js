@@ -135,7 +135,7 @@ const initAccessibilityMode = async () => {
       redirect: 'follow',
     };
 
-    fetch(`http://localhost:8080/api/approvals?pageUrl=${page}`, requestOptions)
+    fetch(`https://019a-2003-f9-872f-f800-7528-4370-218f-118d.ngrok-free.app/api/approvals?pageUrl=${page}`, requestOptions)
       .then((response) => response.text())
       .then(() => approvalStartDialog.remove());
 
