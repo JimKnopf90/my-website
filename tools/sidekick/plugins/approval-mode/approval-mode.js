@@ -1,6 +1,6 @@
 /* eslint-disable no-undef, no-unused-vars */
 import { loadCSS } from '../../../../scripts/aem.js';
-import { createElement } from '../../../../scripts/scripts.js'; // eslint-disable-line import/no-cycle;
+import { createElement } from '../../../../scripts/scripts.js'; // eslint-disable import/no-cycle;
 
 let selectedUser = '';
 let selectedRole = 'Approver';
