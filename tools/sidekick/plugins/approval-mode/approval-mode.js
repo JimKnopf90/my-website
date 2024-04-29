@@ -48,7 +48,7 @@ const fetchUsers = async () => {
   await fetch('https://rest.proofhq.eu/api/v1/contacts', {
     headers: {
       'Content-Type': 'application/json',
-      Sessionid: '03E1NDY5YmM4MjkzYmE5M2FiMWY0M2YzMDgxYTkr',
+      Sessionid: '03FjYzVhZGM1MDViYzZkNTY5ZGU0MWVjNTVjMGZr',
     },
   })
     .then((response) => response.json())
