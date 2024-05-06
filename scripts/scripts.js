@@ -91,7 +91,7 @@ const accessibilityMode = async (e) => {
 };
 
 const sk = document.querySelector('helix-sidekick');
-
+console.log(sk);
 if (sk) {
   sk.addEventListener('custom:accessibility-mode', accessibilityMode);
 } else {
