@@ -2,8 +2,8 @@
 import { loadCSS } from '../../../../scripts/aem.js';
 import { createElement } from '../../../../scripts/scripts.js';
 
-let selectedUser = '';
-let selectedUserId = '';
+const selectedUser = '';
+const selectedUserId = '';
 let selectedRole = 'Approver';
 let selectedRoleId = 4;
 let selectedUserRole = [];
@@ -15,35 +15,13 @@ const roles = [
   { role: 'Read only', value: 1 },
 ];
 
-const createDialog = () => {
-  const dialog = createElement('div', { id: 'hlx-a11y-mode-dialog' }, [
-    createElement('div', { class: 'hlx-a11y-mode-dialog-container' }, [
-      createElement('h4', { class: 'hlx-a11y-mode-dialog-title' }, 'Start Approval Process'),
-      createElement('p', {}, 'Please select the approver and role'),
-      createElement('input', { id: 'search', type: 'text', placeholder: 'Search for approvers' }),
-      createElement('div', { id: 'hit-list' }),
-      createElement('div', { id: 'selection' }, [
-        // createElement('button', { id: 'btn-add', disabled: true }, '+'),
-      ]),
-      createElement('div', { id: 'result' }),
-      createElement('div', { class: 'hlx-a11y-mode-dialog-actions' }, [
-        createElement('button', { class: 'hlx-a11y-mode-dialog-button' }, 'Start Approval Process '),
-      ]),
-    ]),
-  ]);
-
-  const searchInput = dialog.querySelector('#search');
-  searchInput.addEventListener('input', async () => {
-    const value = searchInput.value;
-    if (value.length >= 3) {
-      document.getElementById('hit-list').innerHTML = '';
-      const userList = await fetchUsers2(value);
-      createUserHitList(userList);
-    }
-  });
-
-  return dialog;
-};
+function getRoleNameById(roleId) {
+  const role = roles.find((r) => r.value === roleId);
+  if (role) {
+    return role.role;
+  }
+  return 'Role not found';
+}
 
 const add2 = (name, contactToken, role) => {
   selectedUserRole.push({ contactToken, role });
@@ -61,6 +39,16 @@ const add2 = (name, contactToken, role) => {
   div.append(divName);
   div.append(divRole);
   document.getElementById('result').appendChild(div);
+};
+
+function createUserHitList(userList) {
+  const hitList = document.getElementById('hit-list');
+  userList.forEach((user) => {
+    const entry = document.createElement('div');
+    entry.textContent = `${user.name} - ${user.email} `;
+    entry.addEventListener('click', () => add2(user.name, user.id, 4), false);
+    hitList.appendChild(entry);
+  });
 }
 
 const add = () => {
@@ -102,7 +90,7 @@ const fetchUsers2 = async (query) => {
     },
   });
   const data = await response.json();
-  return data.contacts.map(user => ({ name: user.name, email: user.email, id: user.token }));
+  return data.contacts.map((user) => ({ name: user.name, email: user.email, id: user.token }));
 };
 
 function createRoleDropdown() {
@@ -110,7 +98,7 @@ function createRoleDropdown() {
   select.classList = 'custom-select';
   select.id = 'role-selection';
   select.disabled = true;
-  
+
   roles.forEach((role) => {
     const option = document.createElement('option');
     option.textContent = role.role;
@@ -127,6 +115,36 @@ function createRoleDropdown() {
 
   return select;
 }
+
+const createDialog = () => {
+  const dialog = createElement('div', { id: 'hlx-a11y-mode-dialog' }, [
+    createElement('div', { class: 'hlx-a11y-mode-dialog-container' }, [
+      createElement('h4', { class: 'hlx-a11y-mode-dialog-title' }, 'Start Approval Process'),
+      createElement('p', {}, 'Please select the approver and role'),
+      createElement('input', { id: 'search', type: 'text', placeholder: 'Search for approvers' }),
+      createElement('div', { id: 'hit-list' }),
+      createElement('div', { id: 'selection' }, [
+        // createElement('button', { id: 'btn-add', disabled: true }, '+'),
+      ]),
+      createElement('div', { id: 'result' }),
+      createElement('div', { class: 'hlx-a11y-mode-dialog-actions' }, [
+        createElement('button', { class: 'hlx-a11y-mode-dialog-button' }, 'Start Approval Process '),
+      ]),
+    ]),
+  ]);
+
+  const searchInput = dialog.querySelector('#search');
+  searchInput.addEventListener('input', async () => {
+    const { value } = searchInput;
+    if (value.length >= 3) {
+      document.getElementById('hit-list').innerHTML = '';
+      const userList = await fetchUsers2(value);
+      createUserHitList(userList);
+    }
+  });
+
+  return dialog;
+};
 
 // async function createUserDropdown() {
 //   const userList = await fetchUsers();
@@ -151,26 +169,6 @@ function createRoleDropdown() {
 //   return select;
 // }
 
-function getRoleNameById(roleId) { 
-  const role = roles.find(role => role.value === roleId);
-  if (role) {
-    return role.role;
-  } else {
-    return 'Role not found';
-  }
-}
-
-function createUserHitList(userList) {
-  const hitList = document.getElementById('hit-list');
-  userList.forEach((user) => {
-    const entry = document.createElement('div');
-    entry.textContent = `${user.name} - ${user.email} `;
-    console.log(user);
-    entry.addEventListener('click', () => add2(user.name, user.id, 4), false);
-    hitList.appendChild(entry);
-  });
-}
-
 const initApprovalMode = async (sourceLocation, previewUrl) => {
   await loadCSS(`${window.hlx.codeBasePath}/tools/sidekick/plugins/approval-mode/accessibility-mode.css`);
 
@@ -183,7 +181,7 @@ const initApprovalMode = async (sourceLocation, previewUrl) => {
 
   const button = approvalStartDialog.querySelector('.hlx-a11y-mode-dialog-button');
 
-  button.addEventListener('click', () => {   
+  button.addEventListener('click', () => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     const body = JSON.stringify(selectedUserRole);
