@@ -7,14 +7,23 @@ let selectedUserId = '';
 let selectedRole = 'Approver';
 let selectedRoleId = 4;
 let selectedUserRole = [];
+const roles = [
+  { role: 'Approver', value: 4 },
+  { role: 'Reviewer and Approver', value: 5 },
+  { role: 'Author', value: 6 },
+  { role: 'Moderator', value: 7 },
+  { role: 'Read only', value: 1 },
+];
 
 const createDialog = () => {
   const dialog = createElement('div', { id: 'hlx-a11y-mode-dialog' }, [
     createElement('div', { class: 'hlx-a11y-mode-dialog-container' }, [
       createElement('h4', { class: 'hlx-a11y-mode-dialog-title' }, 'Start Approval Process'),
-      createElement('p', {}, 'Please select the role and approver'),
+      createElement('p', {}, 'Please select the approver and role'),
+      createElement('input', { id: 'search', type: 'text', placeholder: 'Search for approvers' }),
+      createElement('div', { id: 'hit-list' }),
       createElement('div', { id: 'selection' }, [
-        createElement('button', { id: 'btn-add', disabled: true }, '+'),
+        // createElement('button', { id: 'btn-add', disabled: true }, '+'),
       ]),
       createElement('div', { id: 'result' }),
       createElement('div', { class: 'hlx-a11y-mode-dialog-actions' }, [
@@ -22,8 +31,37 @@ const createDialog = () => {
       ]),
     ]),
   ]);
+
+  const searchInput = dialog.querySelector('#search');
+  searchInput.addEventListener('input', async () => {
+    const value = searchInput.value;
+    if (value.length >= 3) {
+      document.getElementById('hit-list').innerHTML = '';
+      const userList = await fetchUsers2(value);
+      createUserHitList(userList);
+    }
+  });
+
   return dialog;
 };
+
+const add2 = (name, contactToken, role) => {
+  selectedUserRole.push({ contactToken, role });
+
+  const div = document.createElement('div');
+  div.id = 'result-list';
+
+  const divName = document.createElement('div');
+  divName.innerText = `Name: ${name}`;
+
+  const divRole = document.createElement('div');
+  divRole.id = 'result-role';
+  divRole.innerText = getRoleNameById(role);
+
+  div.append(divName);
+  div.append(divRole);
+  document.getElementById('result').appendChild(div);
+}
 
 const add = () => {
   selectedUserRole.push({ contactToken: selectedUserId, role: selectedRoleId });
@@ -45,17 +83,26 @@ const add = () => {
 
 const fetchUsers = async () => {
   const userList = [];
-  await fetch('https://rest.proofhq.eu/api/v1/contacts', {
+  await fetch('http://localhost:8080/api/approvers?value=Pat', {
     headers: {
       'Content-Type': 'application/json',
-      Sessionid: '03FjYzVhZGM1MDViYzZkNTY5ZGU0MWVjNTVjMGZr',
     },
   })
     .then((response) => response.json())
     .then((data) => {
-      data.map((user) => userList.push({ name: `${user.firstName} ${user.lastName}`, id: user.token }));
+      data.contacts.map((user) => userList.push({ name: user.name, id: user.token }));
     });
   return userList;
+};
+
+const fetchUsers2 = async (query) => {
+  const response = await fetch(`http://localhost:8080/api/approvers?value=${encodeURIComponent(query)}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  return data.contacts.map(user => ({ name: user.name, email: user.email, id: user.token }));
 };
 
 function createRoleDropdown() {
@@ -63,14 +110,7 @@ function createRoleDropdown() {
   select.classList = 'custom-select';
   select.id = 'role-selection';
   select.disabled = true;
-
-  const roles = [
-    { role: 'Approver', value: 4 },
-    { role: 'Reviewer and Approver', value: 5 },
-    { role: 'Author', value: 6 },
-    { role: 'Moderator', value: 7 },
-    { role: 'Read only', value: 1 },
-  ];
+  
   roles.forEach((role) => {
     const option = document.createElement('option');
     option.textContent = role.role;
@@ -88,42 +128,62 @@ function createRoleDropdown() {
   return select;
 }
 
-async function createUserDropdown() {
-  const userList = await fetchUsers();
+// async function createUserDropdown() {
+//   const userList = await fetchUsers();
 
-  const select = document.createElement('select');
-  select.classList = 'custom-select';
+//   const select = document.createElement('select');
+//   select.classList = 'custom-select';
 
-  userList.forEach((user) => {
-    const option = document.createElement('option');
-    option.textContent = user.name;
-    option.value = user.id;
-    select.appendChild(option);
-  });
+//   userList.forEach((user) => {
+//     const option = document.createElement('option');
+//     option.textContent = user.name;
+//     option.value = user.id;
+//     select.appendChild(option);
+//   });
 
-  select.addEventListener('change', function () {
-    const name = this.options[this.selectedIndex].textContent;
-    selectedUser = name;
-    selectedUserId = this.value;
-    document.getElementById('role-selection').disabled = false;
-  });
+//   select.addEventListener('change', function () {
+//     const name = this.options[this.selectedIndex].textContent;
+//     selectedUser = name;
+//     selectedUserId = this.value;
+//     document.getElementById('role-selection').disabled = false;
+//   });
 
-  return select;
+//   return select;
+// }
+
+function getRoleNameById(roleId) { 
+  const role = roles.find(role => role.value === roleId);
+  if (role) {
+    return role.role;
+  } else {
+    return 'Role not found';
+  }
 }
 
-const initAccessibilityMode = async () => {
+function createUserHitList(userList) {
+  const hitList = document.getElementById('hit-list');
+  userList.forEach((user) => {
+    const entry = document.createElement('div');
+    entry.textContent = `${user.name} - ${user.email} `;
+    console.log(user);
+    entry.addEventListener('click', () => add2(user.name, user.id, 4), false);
+    hitList.appendChild(entry);
+  });
+}
+
+const initApprovalMode = async (sourceLocation, previewUrl) => {
   await loadCSS(`${window.hlx.codeBasePath}/tools/sidekick/plugins/approval-mode/accessibility-mode.css`);
 
   const approvalStartDialog = createDialog();
   document.body.appendChild(approvalStartDialog);
-  const userDropDown = await createUserDropdown();
-  document.getElementById('selection').prepend(createRoleDropdown());
-  document.getElementById('selection').prepend(userDropDown);
+  // const userDropDown = await createUserDropdown();
+
+  // document.getElementById('selection').prepend(createRoleDropdown());
+  // document.getElementById('selection').prepend(userDropDown);
 
   const button = approvalStartDialog.querySelector('.hlx-a11y-mode-dialog-button');
 
-  button.addEventListener('click', () => {
-    const page = window.location.href;
+  button.addEventListener('click', () => {   
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     const body = JSON.stringify(selectedUserRole);
@@ -135,7 +195,7 @@ const initAccessibilityMode = async () => {
       redirect: 'follow',
     };
 
-    fetch(`https://9ef9-2003-f9-872f-f800-bc6d-136b-d6ab-eb81.ngrok-free.app/api/approvals?pageUrl=${page}`, requestOptions)
+    fetch(`http://localhost:8080/api/approvals?pageUrl=${previewUrl}&source=${sourceLocation}`, requestOptions)
       .then((response) => response.text())
       .then(() => approvalStartDialog.remove());
 
@@ -146,4 +206,4 @@ const initAccessibilityMode = async () => {
   addButton.addEventListener('click', add, false);
 };
 
-export default initAccessibilityMode;
+export default initApprovalMode;

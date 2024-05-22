@@ -75,6 +75,7 @@ export function createElement(tagName, props, html) {
 }
 
 const accessibilityMode = async (e) => {
+  console.log(e);
   const pluginButton = e.target.shadowRoot.querySelector('.approval-mode > button');
 
   isA11yModeActive = !isA11yModeActive;
@@ -87,11 +88,11 @@ const accessibilityMode = async (e) => {
   }
 
   document.querySelector('body').classList.toggle('accessibility-mode-active');
-  await initAccessibilityMode();
+  await initAccessibilityMode(e.detail.data.status.edit.sourceLocation, e.detail.data.status.preview.url);
 };
 
 const sk = document.querySelector('helix-sidekick');
-console.log(sk);
+
 if (sk) {
   sk.addEventListener('custom:accessibility-mode', accessibilityMode);
 } else {
