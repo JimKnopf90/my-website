@@ -2,6 +2,7 @@
 import { loadCSS } from '../../../../scripts/aem.js';
 import { createElement } from '../../../../scripts/scripts.js';
 
+const baseUrl = 'https://95ed-2003-f9-872f-f800-4584-666c-3a37-38ef.ngrok-free.app';
 const selectedUser = '';
 const selectedUserId = '';
 let selectedRole = 'Approver';
@@ -84,7 +85,7 @@ const fetchUsers = async () => {
 };
 
 const fetchUsers2 = async (query) => {
-  const response = await fetch(`http://localhost:8080/api/approvers?value=${encodeURIComponent(query)}`, {
+  const response = await fetch(`${baseUrl}/api/approvers?value=${encodeURIComponent(query)}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -193,7 +194,7 @@ const initApprovalMode = async (sourceLocation, previewUrl) => {
       redirect: 'follow',
     };
 
-    fetch(`http://localhost:8080/api/approvals?pageUrl=${previewUrl}&source=${sourceLocation}`, requestOptions)
+    fetch(`${baseUrl}/api/approvals?pageUrl=${previewUrl}&source=${sourceLocation}`, requestOptions)
       .then((response) => response.text())
       .then(() => approvalStartDialog.remove());
 
