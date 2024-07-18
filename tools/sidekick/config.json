@@ -3,7 +3,7 @@
     "plugins": [
       {
         "id": "approval-mode",
-        "title": "Approval Mode",
+        "title": "Start Approval Process",
         "environments": [
           "preview",
           "dev"
